@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -130,14 +131,19 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     JSONObject main = jsonObject.getJSONObject("main");
-                    JSONObject status = jsonObject.getJSONObject("weather");
+                    JSONArray weatherArray = jsonObject.getJSONArray("weather");
+                    JSONObject weatherObject = weatherArray.getJSONObject(0);
 
-                    String weather_condition = R.string.condition + ": " + translateCondition(status.getString("main"));
+                    String weather_condition = getString(R.string.condition) + ": " + translateCondition(weatherObject.getString("main"));
                     weather_status.setText(weather_condition);
 
                     double temp = main.getDouble("temp") - 273.00;
-                    String tempValue = R.string.temperature + ": " + String.format("%.2f", temp) +"°C";
+                    String tempValue = getString(R.string.temperature) + ": " + String.format("%.2f", temp) +"°C";
                     temperature.setText(tempValue);
+
+                   double humidityD = main.getDouble("humidity");
+                    String humidityVal = String.format("%.2f", humidityD) + "%";
+                    humidity.setText(humidityVal);
 
                     //String tempValue = Double.toString(temp);
                     //String tempValue = "" + temp;

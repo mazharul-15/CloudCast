@@ -1,9 +1,14 @@
 <resources>
     <string name="app_name">CloudCast</string>
+    <string name="search_hint">আপনার শহরের নাম দিয়ে খুঁজুন</string>
+    <string name="humidity">আদ্রতা</string>
+    <string name="wind_speed">বাতাসের গতি</string>
+    <string name="rain_st">বৃষ্টি</string>
     <string name="temperature">তাপমাত্রা</string>
     <string name="condition">পরিস্থিতি</string>
     <string name="clear">আকাশ পরিষ্কার</string>
     <string name="rain">বৃষ্টি হচ্ছে</string>
     <string name="snow">তুষার</string>
     <string name="cloudy">আকাশ মেঘলা</string>
+    <string name="next_days">পরবরতী ৭ দিনের</string>
 </resources>

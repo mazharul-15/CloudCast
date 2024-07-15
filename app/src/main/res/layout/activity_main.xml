@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/city"
-                android:hint="Enter your location"
+                android:hint="@string/search_hint"
                 android:background="@android:color/transparent"
                 android:textAlignment="center" />
 
@@ -54,16 +54,16 @@
             android:id="@+id/weather_status_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="15dp"
             android:src="@drawable/sunnylarge"/>
 
         <TextView
             android:id="@+id/temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:text="25 °C"
-            android:textSize="50sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             android:textColor="@color/white"
             />
@@ -104,14 +104,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="22%"
+                android:text="0%"
                 android:textColor="@color/white"
                 android:textSize="20sp"/>
             <TextView
                 android:id="@+id/rain_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rain"
+                android:text="@string/rain_st"
                 android:layout_gravity="center"
                 android:textSize="20sp"
                 android:textColor="@color/white"/>
@@ -136,7 +136,7 @@
                 android:id="@+id/wind_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="12mk/h"
+                android:text="0mk/h"
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:layout_gravity="center"/>
@@ -145,7 +145,7 @@
                 android:id="@+id/wind_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wind speed"
+                android:text="@string/wind_speed"
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:layout_gravity="center"/>
@@ -170,7 +170,7 @@
                 android:id="@+id/humidity_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="18%"
+                android:text="0%"
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:layout_gravity="center"/>
@@ -179,7 +179,7 @@
                 android:id="@+id/humidity_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Humidity"
+                android:text="@string/humidity"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:layout_gravity="center"/>
@@ -187,5 +187,19 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/next_seven_days"
+        android:text="@string/next_days"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:paddingTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:drawableRight="@drawable/right_arrow"
+        android:drawablePadding="2dp"
+        android:layout_marginBottom="15dp"/>
 
 </RelativeLayout>
