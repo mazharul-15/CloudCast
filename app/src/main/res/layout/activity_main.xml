@@ -19,7 +19,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/search_area_bg">
+            android:background="@drawable/search_area_bg"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,10 +31,10 @@
                 android:hint="Enter your location"
                 android:background="@android:color/transparent"
                 android:textAlignment="center" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
                 android:paddingRight="10dp"
                 android:id="@+id/search_by_city"
                 android:src="@drawable/search_icon"/>

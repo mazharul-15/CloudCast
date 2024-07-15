@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText location;
     TextView weather_status, temperature, rain, wind, humidity;
-    ImageView search_by_city;
+    ImageView search_by_city, weather_status_img;
     String loc = null;
 
     @Override
@@ -35,14 +35,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        search_by_city = findViewById(R.id.search_by_city);
+
         weather_status =findViewById(R.id.weather_status);
+        weather_status_img = findViewById(R.id.weather_status_img);
+
+        location = findViewById(R.id.city);
+        temperature = findViewById(R.id.temperature);
+
         rain = findViewById(R.id.rain_value);
         wind = findViewById(R.id.wind_value);
         humidity = findViewById(R.id.humidity_value);
-        location = findViewById(R.id.city);
-        temperature = findViewById(R.id.temperature);
         //loc = city.getText().toString();
-        search_by_city = findViewById(R.id.search_by_city);
+
 
         /// Default Location is KHULNA;
         String city = "Khulna";
@@ -127,12 +132,11 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject main = jsonObject.getJSONObject("main");
                     JSONObject status = jsonObject.getJSONObject("weather");
 
+                    String weather_condition = R.string.condition + ": " + translateCondition(status.getString("main"));
+                    weather_status.setText(weather_condition);
+
                     double temp = main.getDouble("temp") - 273.00;
                     String tempValue = R.string.temperature + ": " + String.format("%.2f", temp) +"°C";
-
-                    String weather_condition = R.string.condition + ": " + translateCondition(status.getString("main"));
-
-                    weather_status.setText(weather_condition);
                     temperature.setText(tempValue);
 
                     //String tempValue = Double.toString(temp);
@@ -150,12 +154,16 @@ public class MainActivity extends AppCompatActivity {
         private String translateCondition(String condition) {
             switch (condition.toLowerCase()) {
                 case "clear":
+                    weather_status_img.setImageResource(R.drawable.sunnylarge);
                     return getString(R.string.clear);
                 case "rain":
+                    weather_status_img.setImageResource(R.drawable.rainy);
                     return getString(R.string.rain);
                 case "snow":
+                    weather_status_img.setImageResource(R.drawable.cloudy_sunny);
                     return getString(R.string.snow);
                 case "clouds":
+                    weather_status_img.setImageResource(R.drawable.cloudy);
                     return getString(R.string.cloudy);
                 default:
                     return condition;
