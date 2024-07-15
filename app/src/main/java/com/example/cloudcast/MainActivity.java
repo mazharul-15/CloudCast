@@ -26,8 +26,9 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
+    double lat, lon;
     EditText location;
-    TextView weather_status, temperature, rain, wind, humidity;
+    TextView weather_status, temperature, rain, wind, humidity, min_temp, max_temp;
     ImageView search_by_city, weather_status_img;
     String loc = null;
 
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
         location = findViewById(R.id.city);
         temperature = findViewById(R.id.temperature);
+
+        min_temp = findViewById(R.id.min_tmp);
+        max_temp = findViewById(R.id.max_tmp);
 
         rain = findViewById(R.id.rain_value);
         wind = findViewById(R.id.wind_value);
@@ -130,9 +134,16 @@ public class MainActivity extends AppCompatActivity {
             if(result != null) {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
+
+                    JSONObject latLon = jsonObject.getJSONObject("coord");
                     JSONObject main = jsonObject.getJSONObject("main");
                     JSONArray weatherArray = jsonObject.getJSONArray("weather");
                     JSONObject weatherObject = weatherArray.getJSONObject(0);
+                    JSONObject windInfo = jsonObject.getJSONObject("wind");
+
+                    lon = latLon.getDouble("lon");
+                    lat = latLon.getDouble("lat");
+
 
                     String weather_condition = getString(R.string.condition) + ": " + translateCondition(weatherObject.getString("main"));
                     weather_status.setText(weather_condition);
@@ -141,7 +152,19 @@ public class MainActivity extends AppCompatActivity {
                     String tempValue = getString(R.string.temperature) + ": " + String.format("%.2f", temp) +"°C";
                     temperature.setText(tempValue);
 
-                   double humidityD = main.getDouble("humidity");
+                    double minTemp = main.getDouble("temp_min") - 273.00;
+                    String minTempVal =getString(R.string.min_temp) +": "+ String.format("%.0f",minTemp) + "°C";
+                    min_temp.setText(minTempVal);
+
+                    double maxTemp = main.getDouble("temp_max") - 273.00;
+                    String maxTempVal = getString(R.string.max_temp) + ": "+String.format("%.0f",maxTemp) + "°C";
+                    max_temp.setText(maxTempVal);
+
+                    double windSpeed = windInfo.getDouble("speed");
+                    String windVal = String.format("%.2f", windSpeed) + "kmph";
+                    wind.setText(windVal);
+
+                    double humidityD = main.getDouble("humidity");
                     String humidityVal = String.format("%.2f", humidityD) + "%";
                     humidity.setText(humidityVal);
 
@@ -163,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                     weather_status_img.setImageResource(R.drawable.sunnylarge);
                     return getString(R.string.clear);
                 case "rain":
-                    weather_status_img.setImageResource(R.drawable.rainy);
+                    weather_status_img.setImageResource(R.drawable.rain_1);
                     return getString(R.string.rain);
                 case "snow":
                     weather_status_img.setImageResource(R.drawable.cloudy_sunny);
@@ -171,6 +194,12 @@ public class MainActivity extends AppCompatActivity {
                 case "clouds":
                     weather_status_img.setImageResource(R.drawable.cloudy);
                     return getString(R.string.cloudy);
+                case "haze":
+                    weather_status_img.setImageResource(R.drawable.haze);
+                    return getString(R.string.haze);
+                case "thunderstorm":
+                    weather_status_img.setImageResource(R.drawable.thunderstorm);
+                    return getString(R.string.thunderstorm);
                 default:
                     return condition;
             }

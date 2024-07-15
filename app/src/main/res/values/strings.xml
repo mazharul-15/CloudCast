@@ -8,7 +8,20 @@
     <string name="condition">পরিস্থিতি</string>
     <string name="clear">আকাশ পরিষ্কার</string>
     <string name="rain">বৃষ্টি হচ্ছে</string>
+    <string name="haze">কুয়াশা</string>
+    <string name="thunderstorm">ব্জ্রপাতের সম্ভাবনা রয়েছে</string>
     <string name="snow">তুষার</string>
     <string name="cloudy">আকাশ মেঘলা</string>
     <string name="next_days">পরবরতী ৭ দিনের</string>
+    <string name="min_temp">সর্বনিম্ন</string>
+    <string name="max_temp">সর্বোচ্চ</string>
+
+    <string name="saturday">শনিবার</string>
+    <string name="sunday">রবিবার</string>
+    <string name="monday">সোমবার</string>
+    <string name="tuesday">মঙ্গলবার</string>
+    <string name="wednesday">বুধবার</string>
+    <string name="thursday">বৃহস্পতিবার</string>
+    <string name="friday">শুক্রবার</string>
+
 </resources>
