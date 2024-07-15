@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CloudCast</string>
+    <string name="temperature">তাপমাত্রা</string>
+    <string name="condition">পরিস্থিতি</string>
+    <string name="clear">পরিষ্কার</string>
+    <string name="rain">বৃষ্টি</string>
+    <string name="snow">তুষার</string>
+    <string name="cloudy">মেঘলা</string>
 </resources>
