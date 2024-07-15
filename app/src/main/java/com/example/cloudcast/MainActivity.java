@@ -3,6 +3,7 @@ package com.example.cloudcast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     double lat, lon;
     EditText location;
-    TextView weather_status, temperature, rain, wind, humidity, min_temp, max_temp;
+    TextView weather_status, temperature, rain, wind, humidity, min_temp, max_temp, next_7_days;
     ImageView search_by_city, weather_status_img;
     String loc = null;
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         rain = findViewById(R.id.rain_value);
         wind = findViewById(R.id.wind_value);
         humidity = findViewById(R.id.humidity_value);
+        next_7_days = findViewById(R.id.next_seven_days);
         //loc = city.getText().toString();
 
 
@@ -73,6 +75,20 @@ public class MainActivity extends AppCompatActivity {
                 String newURL = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+apiKey;
                 GetWeatherInfo weather2 = new GetWeatherInfo();
                 weather2.execute(newURL);
+            }
+        });
+
+        /// implementation of next seven days weather forecast
+        next_7_days.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), nextDays.class);
+
+                intent.putExtra("lon", lon);
+                intent.putExtra("lat", lat);
+
+                startActivity(intent);
+
             }
         });
     }
@@ -141,29 +157,42 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject weatherObject = weatherArray.getJSONObject(0);
                     JSONObject windInfo = jsonObject.getJSONObject("wind");
 
+                    // longitude and latitude
                     lon = latLon.getDouble("lon");
                     lat = latLon.getDouble("lat");
 
-
+                    // current weather condition
                     String weather_condition = getString(R.string.condition) + ": " + translateCondition(weatherObject.getString("main"));
                     weather_status.setText(weather_condition);
 
+                    // current temperature
                     double temp = main.getDouble("temp") - 273.00;
                     String tempValue = getString(R.string.temperature) + ": " + String.format("%.2f", temp) +"°C";
                     temperature.setText(tempValue);
 
+                    // min temperature
                     double minTemp = main.getDouble("temp_min") - 273.00;
                     String minTempVal =getString(R.string.min_temp) +": "+ String.format("%.0f",minTemp) + "°C";
                     min_temp.setText(minTempVal);
 
+                    // max temperature
                     double maxTemp = main.getDouble("temp_max") - 273.00;
                     String maxTempVal = getString(R.string.max_temp) + ": "+String.format("%.0f",maxTemp) + "°C";
                     max_temp.setText(maxTempVal);
 
+                    // rain data
+                    if(jsonObject.has("rain")) {
+                        JSONObject rainObject = jsonObject.getJSONObject("rain");
+                        double rainVal = rainObject.has("1h") ? rainObject.getDouble("1h") : 0;
+                        String rainD = String.format("%.1f", rainVal) +"mm";
+                        rain.setText(rainD);
+                    }
+
+                    // wind speed
                     double windSpeed = windInfo.getDouble("speed");
                     String windVal = String.format("%.2f", windSpeed) + "kmph";
                     wind.setText(windVal);
-
+                    // humidity data
                     double humidityD = main.getDouble("humidity");
                     String humidityVal = String.format("%.2f", humidityD) + "%";
                     humidity.setText(humidityVal);
