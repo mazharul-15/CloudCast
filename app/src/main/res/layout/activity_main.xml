@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/city"
+                android:inputType="text"
                 android:hint="@string/search_hint"
                 android:background="@android:color/transparent"
                 android:textAlignment="center" />
@@ -52,8 +53,8 @@
 
         <ImageView
             android:id="@+id/weather_status_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="190dp"
             android:layout_marginTop="15dp"
             android:src="@drawable/sunnylarge"/>
 
@@ -63,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="25 °C"
-            android:textSize="30sp"
+            android:textSize="35sp"
             android:textStyle="bold"
             android:textColor="@color/white"
             />
@@ -80,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/min_tmp"
                 android:text="@string/min_temp"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textColor="@color/white"
                 android:layout_marginRight="15dp"/>
 
@@ -89,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/max_tmp"
                 android:text="@string/max_temp"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textColor="@color/white"/>
 
         </LinearLayout>

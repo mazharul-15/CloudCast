@@ -13,7 +13,7 @@ public class Weather {
             R.drawable.haze, R.drawable.stormmini};
 
     public Weather(String day, double temp, String status) {
-        this.day = day;
+        this.day = this.translateDay(day);
         this.temp = temp;
         this.status = this.translateCondition(status);
     }
@@ -28,6 +28,22 @@ public class Weather {
 
     public String getStatus() {
         return status;
+    }
+
+    public int getImg_id() {
+        return img_id;
+    }
+
+    public String translateDay(String day) {
+        switch (day.toLowerCase()) {
+            case "saturday": return "শনিবার";
+            case "sunday": return "রবিবার";
+            case "monday": return "সোমবার";
+            case "tuesday": return "মঙ্গলবার";
+            case "wednesday": return "বুধবার";
+            case "thursday": return "বৃহস্পতিবার";
+            default: return "শুক্রবার";
+        }
     }
 
     public String translateCondition(String condition) {

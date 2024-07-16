@@ -4,9 +4,13 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,6 +35,7 @@ public class nextDays extends AppCompatActivity {
     double LON, LAT;
     String API_KEY = "cd4edd043586c2cc364eb85d4f185e9f";
 
+    private ImageView backArrow;
     private ListView weatherListView;
     private WeatherAdapter weatherAdapter;
     private List<Weather> weatherList = new ArrayList<>();
@@ -45,7 +50,17 @@ public class nextDays extends AppCompatActivity {
         LON = bundle.getDouble("lon", 0);
         LAT = bundle.getDouble("lat", 0);
 
+        backArrow = findViewById(R.id.back_arrow);
         weatherListView = findViewById(R.id.list_view);
+
+        // back arrow implementation
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+        });
+
         weatherAdapter = new WeatherAdapter(this, weatherList);
         weatherListView.setAdapter(weatherAdapter);
 

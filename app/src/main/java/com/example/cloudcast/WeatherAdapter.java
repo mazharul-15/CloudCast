@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -45,12 +46,15 @@ public class WeatherAdapter extends BaseAdapter {
         Weather currentWeather = (Weather) getItem(position);
 
         TextView dateTextView = convertView.findViewById(R.id.dateTextView);
-        TextView tempTextView = convertView.findViewById(R.id.tempTextView);
         TextView descriptionTextView = convertView.findViewById(R.id.descriptionTextView);
+        ImageView imgView = convertView.findViewById(R.id.item_img);
+        TextView tempTextView = convertView.findViewById(R.id.tempTextView);
 
         dateTextView.setText(currentWeather.getDay());
-        tempTextView.setText(String.format("%.2f°C", currentWeather.getTemp()));
         descriptionTextView.setText(currentWeather.getStatus());
+        tempTextView.setText(String.format("%.2f°C", currentWeather.getTemp()));
+        imgView.setImageResource(currentWeather.getImg_id());
+
         return convertView;
     }
 

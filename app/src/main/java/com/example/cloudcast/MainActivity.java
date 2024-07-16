@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import org.json.JSONArray;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -28,6 +30,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class MainActivity extends AppCompatActivity {
 
     double lat, lon;
+    static public final String api_key = "cd4edd043586c2cc364eb85d4f185e9f";
     EditText location;
     TextView weather_status, temperature, rain, wind, humidity, min_temp, max_temp, next_7_days;
     ImageView search_by_city, weather_status_img;
@@ -58,23 +61,31 @@ public class MainActivity extends AppCompatActivity {
 
         /// Default Location is KHULNA;
         String city = "Khulna";
-        String apiKey = "cd4edd043586c2cc364eb85d4f185e9f";
-        String url = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+apiKey;
+        //String apiKey = "cd4edd043586c2cc364eb85d4f185e9f";
+        //String url = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+apiKey;
         //new GetWeatherInfo().execute(url);
         GetWeatherInfo weather = new GetWeatherInfo();
-        weather.execute(url);
+        weather.execute(city);
         // Default area end
+
         search_by_city.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 hideKeyboard();
 
+                String city = location.getText().toString().trim();
+                if (!city.isEmpty()) {
+                    new TranslateCityNameTask().execute(city);
+                } else {
+                    Toast.makeText(MainActivity.this, "Please enter a city name", Toast.LENGTH_SHORT).show();
+                }
+                /*
                 String apiKey = "cd4edd043586c2cc364eb85d4f185e9f";
-                String city = location.getText().toString();
+
                 String newURL = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+apiKey;
                 GetWeatherInfo weather2 = new GetWeatherInfo();
-                weather2.execute(newURL);
+                weather2.execute(newURL);*/
             }
         });
 
@@ -93,6 +104,52 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private class TranslateCityNameTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            String cityName = params[0];
+            return translateCityName(cityName);
+        }
+
+        @Override
+        protected void onPostExecute(String translatedCityName) {
+            super.onPostExecute(translatedCityName);
+            //Log.d(TAG, "Translated City Name: " + translatedCityName);
+            if (translatedCityName.isEmpty()) {
+                Toast.makeText(MainActivity.this, "Translation failed", Toast.LENGTH_SHORT).show();
+            } else {
+                ///Toast.makeText(MainActivity.this, "This is city is::::"+translatedCityName, Toast.LENGTH_SHORT).show();
+                new GetWeatherInfo().execute(translatedCityName);
+            }
+        }
+
+        private String translateCityName(String cityName) {
+            String translatedText = "";
+            try {
+                URL url = new URL("https://api.mymemory.translated.net/get?q=" + java.net.URLEncoder.encode(cityName, "UTF-8") + "&langpair=bn|en");
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "utf-8"))) {
+                    StringBuilder response = new StringBuilder();
+                    String responseLine;
+                    while ((responseLine = br.readLine()) != null) {
+                        response.append(responseLine.trim());
+                    }
+                    JSONObject jsonResponse = new JSONObject(response.toString());
+                    JSONObject responseData = jsonResponse.getJSONObject("responseData");
+                    translatedText = responseData.getString("translatedText");
+                } catch (Exception e) {
+                    //Log.e(TAG, "Error reading response", e);
+                }
+            } catch (Exception e) {
+                //Log.e(TAG, "Error with translation request", e);
+            }
+            return translatedText;
+        }
+    }
+
+
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
         if (imm != null && getCurrentFocus() != null) {
@@ -104,14 +161,16 @@ public class MainActivity extends AppCompatActivity {
     private class GetWeatherInfo extends AsyncTask<String, Void, String > {
 
         @Override
-        protected String doInBackground(String... urls) {
+        protected String doInBackground(String... params) {
 
             HttpsURLConnection connection = null;
             BufferedReader reader = null;
 
             try {
 
-                URL url = new URL(urls[0]);
+                String cityName = params[0];
+                //String encodedCityName = java.net.URLEncoder.encode(cityName, "UTF-8");
+                URL url = new URL("https://api.openweathermap.org/data/2.5/weather?q="+cityName+"&appid=" +api_key);
                 connection = (HttpsURLConnection) url.openConnection();
                 connection.connect();
 

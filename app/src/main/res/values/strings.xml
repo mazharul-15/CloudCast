@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">CloudCast</string>
-    <string name="search_hint">আপনার শহরের নাম দিয়ে খুঁজুন</string>
+    <string name="search_hint">আপনার জেলার নাম দিয়ে খুঁজুন</string>
     <string name="humidity">আদ্রতা</string>
     <string name="wind_speed">বাতাসের গতি</string>
     <string name="rain_st">বৃষ্টি</string>
